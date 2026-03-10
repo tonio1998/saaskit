@@ -42,17 +42,13 @@
                 <i class="bi bi-chevron-down dropdown-icon"></i>
             </a>
             <div class="collapse sidebar-dropdown" id="usersMenu">
-                <a href="#" class="sidebar-sublink">
+                <a href="{{ route('users.create') }}" class="sidebar-sublink">
                     <i class="bi bi-book sidebar-subicon"></i>
-                    Library System
+                    Create
                 </a>
-                <a href="#" class="sidebar-sublink">
-                    <i class="bi bi-arrow-left-right sidebar-subicon"></i>
-                    Tracking System
-                </a>
-                <a href="#" class="sidebar-sublink">
+                <a href="{{ route('users.index') }}" class="sidebar-sublink">
                     <i class="bi bi-cash-coin sidebar-subicon"></i>
-                    Finance System
+                    Masterlist
                 </a>
             </div>
         </li>

@@ -4,11 +4,12 @@
 
 @section('content')
 
-    <x-page-header title="Users">
+    <x-page-header title="Users" subtitle="Manage system users">
 
         <x-slot:action>
 
-            <a href="#" class="btn btn-primary btn-sm">
+            <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus"></i>
                 Add User
             </a>
 
@@ -18,41 +19,18 @@
 
     <x-card>
 
-        <table class="table">
+        <x-datatable
+            id="usersTable"
+            :columns="['Name','Email','Actions']"
+            :ajax="route('users.data')"
+            :datatableColumns="[
+['data'=>'name'],
+['data'=>'email'],
+['data'=>'actions','orderable'=>false,'searchable'=>false]
+]"
+        >
 
-            <thead>
-
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th width="120">Actions</th>
-            </tr>
-
-            </thead>
-
-            <tbody>
-
-            <tr>
-                <td>Juan Dela Cruz</td>
-                <td>juan@email.com</td>
-                <td>Admin</td>
-                <td>
-
-                    <button class="btn btn-sm btn-outline-primary">
-                        Edit
-                    </button>
-
-                    <button class="btn btn-sm btn-outline-danger">
-                        Delete
-                    </button>
-
-                </td>
-            </tr>
-
-            </tbody>
-
-        </table>
+        </x-datatable>
 
     </x-card>
 
