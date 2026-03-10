@@ -1,0 +1,31 @@
+.radius{
+    border-radius:var(--radius);
+}
+
+.shadow-soft{
+    box-shadow:var(--shadow-sm);
+}
+
+.shadow-medium{
+    box-shadow:var(--shadow-md);
+}
+
+.bg-primary-soft{
+    background:#FFF7D6;
+}
+
+.bg-secondary-soft{
+    background:#ECFDF5;
+}
+
+.text-muted{
+    color:#6B7280;
+}
+
+.p-24{
+    padding:24px;
+}
+
+.m-24{
+    margin:24px;
+}
