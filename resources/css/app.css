@@ -4,8 +4,11 @@
 @import "./components.css";
 @import "./auth.css";
 @import "./utilities.css";
+@import "./datatables.css";
 @import "bootstrap-icons/font/bootstrap-icons.css";
-
+@import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+@import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+@import "datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css";
 :root {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
 }
