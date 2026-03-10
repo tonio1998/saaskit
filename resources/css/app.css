@@ -1,0 +1,16 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "./base.css";
+@import "./layout.css";
+@import "./components.css";
+@import "./auth.css";
+@import "./utilities.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+:root {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+    font-family: var(--font-sans);
+    background: #f8fafc;
+}
