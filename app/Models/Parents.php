@@ -41,7 +41,7 @@ class Parents extends Model implements AuditableContract
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function user_details()
+    public function parentUser()
     {
         return $this->hasOne(User::class, 'conn_id', 'id')->whereHas('roles', function ($q) {
             $q->where('name', 'parents');

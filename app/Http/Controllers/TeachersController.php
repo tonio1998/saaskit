@@ -122,7 +122,7 @@ class TeachersController extends Controller
                 <a href="javascript:void(0)"
                    class="dropdown-item btn-password"
                    data-url="'.route('users.password',['teachers',$teacher->id,$teacher->UserID ?? 0]).'"
-                   data-type="'.($teacher->studentUser ? 'regenerate' : 'generate').'">
+                   data-type="'.($teacher->teacherUser ? 'regenerate' : 'generate').'">
                    <i class="bi bi-key me-2"></i>
                    '.($teacher->teacherUser ? 'Update Password' : 'Generate Password').'
                 </a>
