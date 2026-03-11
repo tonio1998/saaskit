@@ -169,11 +169,11 @@ class UserController extends Controller
         return $prefix . str_pad($newNumber, 12, '0', STR_PAD_LEFT);
     }
 
-    public function generatePassword(Request $request)
+    public function generatePassword(Request $request): \Illuminate\Http\JsonResponse
     {
-        $UserTypeID = $request->segment(2);
-        $UserID = $request->segment(3);
-        $user_type = $request->segment(4);
+        $UserTypeID = $request->segment(4);
+        $user_type = $request->segment(3);
+        $UserID = $request->segment(5);
 
         $newPassword = strtoupper(Str::random(6));
 

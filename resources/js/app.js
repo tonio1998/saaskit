@@ -92,4 +92,56 @@ document.addEventListener('DOMContentLoaded', function(){
 
     });
 
+    $(document).on('click','.btn-password',function(){
+        let url = $(this).data('url');
+        let type = $(this).data('type');
+        let title = type === 'regenerate'
+            ? 'Regenerate Password?'
+            : 'Generate Password?';
+        let text = type === 'regenerate'
+            ? 'This will reset the existing user password.'
+            : 'This will create a login account and generate a password.';
+        Swal.fire({
+            icon:'warning',
+            title:title,
+            text:text,
+            showCancelButton:true,
+            confirmButtonText:'Yes, proceed',
+            cancelButtonText:'Cancel'
+        }).then(function(result){
+            if(!result.isConfirmed) return;
+            console.log(url);
+            $.ajax({
+                url:url,
+                type:'POST',
+                headers:{
+                    'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+                },
+                success:function(res){
+                    if(res.success){
+                        Swal.fire({
+                            icon:'success',
+                            title:res.message,
+                            html:
+                                '<b>Username:</b> '+res.username+
+                                '<br><b>Password:</b> '+res.password
+                        });
+                    }else{
+                        Swal.fire({
+                            icon:'error',
+                            title:'Error',
+                            text:res.message
+                        });
+                    }
+                },
+                error:function(){
+                    Swal.fire({
+                        icon:'error',
+                        title:'Server Error',
+                        text:'Something went wrong.'
+                    });
+                }
+            });
+        });
+    });
 });

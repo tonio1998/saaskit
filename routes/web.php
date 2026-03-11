@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\RoleController;
@@ -20,7 +21,7 @@ Route::post('/register',[AuthController::class,'register']);
 
 Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 Route::middleware('auth')->group(function(){
-    Route::get('/dashboard', fn() => view('pages.dashboard.index'));
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('data', [UserController::class, 'users_data'])->name('data');
@@ -45,8 +46,6 @@ Route::middleware('auth')->group(function(){
         Route::get('/create', [StudentsController::class, 'create'])->name('create');
         Route::post('/create', [StudentsController::class, 'store'])->name('store');
         Route::get('/data', [StudentsController::class, 'ajaxData'])->name('data');
-        Route::post('/{id}/password',[StudentsController::class,'generatePassword'])
-            ->name('password');
     });
 
     Route::prefix('teachers')->name('teachers.')->group(function(){
