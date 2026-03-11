@@ -6,6 +6,7 @@ window.$ = window.jQuery = $
 
 import select2 from 'select2'
 select2($)
+import { Html5QrcodeScanner } from "html5-qrcode"
 
 import 'datatables.net-bs5'
 import 'datatables.net-buttons-bs5'
@@ -145,3 +146,47 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const qrContainer = document.getElementById("qr-reader")
+    if(qrContainer){
+        const qrScanner = new Html5QrcodeScanner(
+            "qr-reader",
+            {
+                fps:10,
+                qrbox:250
+            },
+            false
+        )
+        qrScanner.render(
+            (decodedText)=>{
+                document.getElementById("qr-result").value = decodedText
+            },
+            (error)=>{}
+        )
+    }
+
+    const nfcBtn = document.getElementById("scan-nfc")
+
+    if(nfcBtn){
+        nfcBtn.addEventListener("click", async ()=>{
+            if(!("NDEFReader" in window)){
+                alert("NFC not supported on this device")
+                return
+            }
+            try{
+                const ndef = new NDEFReader()
+                await ndef.scan()
+                ndef.onreading = event => {
+                    const decoder = new TextDecoder()
+                    for(const record of event.message.records){
+                        const text = decoder.decode(record.data)
+                        document.getElementById("nfc-result").value = text
+                    }
+                }
+            }catch(err){
+                alert("NFC scan failed")
+            }
+        })
+    }
+})

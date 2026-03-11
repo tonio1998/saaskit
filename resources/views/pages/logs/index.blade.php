@@ -4,10 +4,10 @@
 
 @section('content')
 
-    <x-page-header title="Users" subtitle="Manage system users">
+    <x-page-header title="Logs Monitoring" subtitle="Manage system users">
         <x-slot:action>
-            <a href="{{ route('users.create') }}" class="btn btn-primary btn-md">
-                <i class="bi bi-plus"></i> Add User
+            <a href="{{ route('scanner.index') }}" class="btn btn-primary btn-md">
+                <i class="bi bi-plus"></i> Scanner
             </a>
         </x-slot:action>
     </x-page-header>

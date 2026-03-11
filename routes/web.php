@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\UserController;
@@ -64,6 +65,10 @@ Route::middleware('auth')->group(function(){
         Route::get('/create', [ParentsController::class, 'create'])->name('create');
         Route::post('/create', [ParentsController::class, 'store'])->name('store');
         Route::get('/data', [ParentsController::class, 'ajaxData'])->name('data');
+    });
+
+    Route::prefix('scanner')->name('scanner.')->group(function(){
+        Route::get('/index', [ScannerController::class, 'index'])->name('index');
     });
 
     Route::get('/reports', fn() => view('pages.reports.index'));
