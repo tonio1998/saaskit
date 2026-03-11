@@ -1,7 +1,7 @@
 <div class="sidebar">
     <ul class="sidebar-menu">
         <li class="sidebar-item">
-            <a class="sidebar-link active" href="/dashboard">
+            <a class="sidebar-link active" href="{{ route('scanner.index') }}">
                 <i class="bi bi-speedometer2 sidebar-icon"></i>
                 <span>Scanner</span>
             </a>
