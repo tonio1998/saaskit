@@ -93,7 +93,7 @@ class ParentsController extends Controller
 
     public function ajaxData(Request $request)
     {
-        $query = Parents::with(['createdBy']);
+        $query = Parents::with(['createdBy', 'parentUser']);
 
         return datatables()
             ->eloquent($query)
@@ -117,14 +117,16 @@ class ParentsController extends Controller
                         </li>';
                 }
 
-                if(auth()->user()->can('view users')) {
-                    $menu .= '
-                        <li>
-                            <a href="" class="dropdown-item">
-                                <i class="bi bi-key me-2"></i> Generate New Password
-                            </a>
-                        </li>';
-                }
+                $menu .= '
+                <li>
+                <a href="javascript:void(0)"
+                   class="dropdown-item btn-password"
+                   data-url="'.route('users.password',['parents',$parent->id,$parent->UserID ?? 0]).'"
+                   data-type="'.($parent->parentUser ? 'regenerate' : 'generate').'">
+                   <i class="bi bi-key me-2"></i>
+                   '.($parent->parentUser ? 'Update Password' : 'Generate Password').'
+                </a>
+                </li>';
 
                 if($menu == '') return '';
 
