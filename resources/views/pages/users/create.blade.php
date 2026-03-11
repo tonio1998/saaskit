@@ -3,13 +3,11 @@
 @section('title','Create User')
 
 @section('content')
-
-    <x-page-header title="Create User" />
-
-    <x-card>
-
-        @include('pages.users.form')
-
-    </x-card>
-
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <x-card>
+                @include('pages.users.form')
+            </x-card>
+        </div>
+    </div>
 @endsection

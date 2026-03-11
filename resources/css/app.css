@@ -1,19 +1,92 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+@import "select2/dist/css/select2.min.css";
+@import "select2-bootstrap-5-theme/dist/select2-bootstrap-5-theme.min.css";
+@import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+@import "datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css";
+
 @import "./base.css";
 @import "./layout.css";
 @import "./components.css";
 @import "./auth.css";
 @import "./utilities.css";
 @import "./datatables.css";
-@import "bootstrap-icons/font/bootstrap-icons.css";
-@import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
-@import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
-@import "datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css";
-:root {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+@import "./select2.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+
+
+:root{
+
+    --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+
+    --color-primary:#004D1A;
+    --color-primary-soft:#E8F3EC;
+
+    --color-accent:#FFD04C;
+    --color-accent-soft:#FFF7D1;
+
+    --color-bg:#F8FAF9;
+    --color-border:#E5E7EB;
+
+    --color-text:#111827;
+    --color-muted:#6B7280;
+
+    --radius-sm:8px;
+    --radius:12px;
+    --radius-lg:16px;
+
+    --shadow-sm:0 2px 6px rgba(0,0,0,.05);
+    --shadow:0 6px 20px rgba(0,0,0,.06);
+    --shadow-lg:0 12px 30px rgba(0,0,0,.08);
+
+    --transition:all .2s ease;
+
 }
 
-body {
-    font-family: var(--font-sans);
-    background: #f8fafc;
+body{
+    font-family:var(--font-sans);
+    background:var(--color-bg);
+    color:var(--color-text);
+    font-size:.92rem;
+    -webkit-font-smoothing:antialiased;
+}
+
+.container,
+.container-fluid{
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+.card{
+    border:none;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-sm);
+}
+
+.card-header{
+    background:#fff;
+    border-bottom:1px solid var(--color-border);
+    font-weight:600;
+}
+
+.card-footer{
+    background:#fff;
+    border-top:1px solid var(--color-border);
+}
+.swal2-popup{
+    border-radius:12px;
+    font-family:var(--font-sans);
+}
+
+.swal2-title{
+    font-size:16px;
+    font-weight:600;
 }

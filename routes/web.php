@@ -1,21 +1,26 @@
 <?php
 
+use App\Http\Controllers\LogsController;
+use App\Http\Controllers\ParentsController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StudentsController;
+use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
+Route::get('/', function () {
+    return view('auth.login');
+});
+
 Route::get('/login',[AuthController::class,'showLogin'])->name('login');
 Route::post('/login',[AuthController::class,'login']);
-
 Route::get('/register',[AuthController::class,'showRegister'])->name('register');
 Route::post('/register',[AuthController::class,'register']);
 
 Route::post('/logout',[AuthController::class,'logout'])->name('logout');
-
 Route::middleware('auth')->group(function(){
-
     Route::get('/dashboard', fn() => view('pages.dashboard.index'));
-
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('data', [UserController::class, 'users_data'])->name('data');
@@ -24,15 +29,51 @@ Route::middleware('auth')->group(function(){
         Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
         Route::put('/{user}', [UserController::class, 'update'])->name('update');
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
-
+        Route::post('/generate-password/{type}/{typeId}/{userId}',[UserController::class,'generatePassword'])
+            ->name('password');
     });
 
+    Route::prefix('logs')->name('logs.')->group(function(){
+        Route::get('/index', [LogsController::class, 'index'])->name('index');
+        Route::get('/data', [LogsController::class, 'logs_data'])->name('data');
+    });
+
+    Route::prefix('students')->name('students.')->group(function(){
+        Route::get('/index', [StudentsController::class, 'index'])->name('index');
+        Route::get('/edit/{id}', [StudentsController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [StudentsController::class, 'update'])->name('update');
+        Route::get('/create', [StudentsController::class, 'create'])->name('create');
+        Route::post('/create', [StudentsController::class, 'store'])->name('store');
+        Route::get('/data', [StudentsController::class, 'ajaxData'])->name('data');
+        Route::post('/{id}/password',[StudentsController::class,'generatePassword'])
+            ->name('password');
+    });
+
+    Route::prefix('teachers')->name('teachers.')->group(function(){
+        Route::get('/index', [TeachersController::class, 'index'])->name('index');
+        Route::get('/edit/{id}', [TeachersController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [TeachersController::class, 'update'])->name('update');
+        Route::get('/create', [TeachersController::class, 'create'])->name('create');
+        Route::post('/create', [TeachersController::class, 'store'])->name('store');
+        Route::get('/data', [TeachersController::class, 'ajaxData'])->name('data');
+    });
+
+    Route::prefix('parents')->name('parents.')->group(function(){
+        Route::get('/index', [ParentsController::class, 'index'])->name('index');
+        Route::get('/edit/{id}', [ParentsController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [ParentsController::class, 'update'])->name('update');
+        Route::get('/create', [ParentsController::class, 'create'])->name('create');
+        Route::post('/create', [ParentsController::class, 'store'])->name('store');
+        Route::get('/data', [ParentsController::class, 'ajaxData'])->name('data');
+    });
 
     Route::get('/reports', fn() => view('pages.reports.index'));
-
     Route::get('/settings', fn() => view('pages.settings.index'));
-    Route::prefix('settings')->name('settings')->group(function(){
-        Route::get('/', fn() => view('index'));
+
+    Route::prefix('select2')->name('select2.')->group(function(){
+        Route::get('roles/search',[RoleController::class,'search'])->name('roles');
+        Route::get('users/search',[UserController::class,'users_search'])->name('users');
+        Route::get('guardians/search',[ParentsController::class,'parents_search'])->name('guardians');
     });
 
 });
