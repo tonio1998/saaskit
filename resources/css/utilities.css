@@ -1,31 +1,27 @@
-.radius{
-    border-radius:var(--radius);
-}
-
 .shadow-soft{
     box-shadow:var(--shadow-sm);
 }
 
-.shadow-medium{
-    box-shadow:var(--shadow-md);
+.shadow-hover:hover{
+    box-shadow:var(--shadow);
 }
 
-.bg-primary-soft{
-    background:#FFF7D6;
+.rounded-soft{
+    border-radius:var(--radius);
 }
 
-.bg-secondary-soft{
-    background:#ECFDF5;
+.bg-soft{
+    background:#f9fafb;
 }
 
-.text-muted{
-    color:#6B7280;
+.text-muted-soft{
+    color:var(--muted);
 }
 
-.p-24{
-    padding:24px;
+.cursor-pointer{
+    cursor:pointer;
 }
 
-.m-24{
-    margin:24px;
+.transition{
+    transition:var(--transition);
 }

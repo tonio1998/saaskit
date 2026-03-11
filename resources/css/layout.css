@@ -1,53 +1,30 @@
-.navbar{
-    background:#fff;
-    border-bottom:1px solid #eee;
-    padding:12px 20px;
-}
-
-.navbar-brand{
-    font-weight:700;
-    color:var(--secondary);
+.page{
+    padding:32px;
+    max-width:1400px;
+    margin:auto;
 }
 
 .sidebar{
-    width:240px;
-    min-height:100vh;
+    width:260px;
     background:#ffffff;
-    padding:18px 0;
-}
-
-.sidebar-brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:0 20px 18px 20px;
-    border-bottom:1px solid #F1F5F9;
-    margin-bottom:10px;
-}
-
-.brand-logo{
-    width:34px;
-    height:34px;
-    background:#004D1A;
-    color:#FFD04C;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:8px;
-    font-size:13px;
-    font-weight:700;
-}
-
-.brand-name{
-    font-weight:600;
-    color:#111827;
-    font-size:15px;
+    border-right:1px solid var(--color-border);
+    padding:18px 12px;
+    height:100vh;
+    position:fixed;
+    left:0;
+    top:64px;
+    overflow-y:auto;
 }
 
 .sidebar-menu{
     list-style:none;
-    padding:10px 0;
+    padding:0;
     margin:0;
+}
+.sidebar-sublink.active{
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    font-weight:600;
 }
 
 .sidebar-item{
@@ -58,143 +35,57 @@
     display:flex;
     align-items:center;
     gap:10px;
-    padding:10px 20px;
-    font-size:14px;
+    padding:10px 12px;
+    border-radius:10px;
     color:#374151;
-    text-decoration:none;
-    border-radius:8px;
-    margin:0 10px;
-    transition:all .15s ease;
-    justify-content:space-between;
-}
-
-.sidebar-link span{
-    flex:1;
+    font-size:14px;
+    font-weight:500;
+    transition:var(--transition);
 }
 
 .sidebar-link:hover{
-    background:#F3F4F6;
+    background:#f3f4f6;
 }
 
 .sidebar-link.active{
-    background:#004D1A;
-    color:#FFD04C;
+    background:var(--color-primary-soft);
+    color:var(--color-primary);
+}
+
+.sidebar-icon{
+    font-size:16px;
+    width:18px;
+    text-align:center;
+}
+
+.dropdown-icon{
+    margin-left:auto;
+    font-size:12px;
+    opacity:.6;
 }
 
 .sidebar-dropdown{
-    padding-left:42px;
+    padding-left:30px;
     margin-top:4px;
 }
 
 .sidebar-sublink{
-    display:block;
-    padding:8px 0;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 10px;
     font-size:13px;
-    color:#6B7280;
-    text-decoration:none;
+    color:#6b7280;
+    border-radius:8px;
+    transition:var(--transition);
 }
 
 .sidebar-sublink:hover{
-    color:#004D1A;
-}
-
-.dropdown-icon{
-    font-size:12px;
-    opacity:.7;
-}
-.sidebar-icon{
-    font-size:18px;
-    width:22px;
-    text-align:center;
+    background:#f3f4f6;
+    color:#111827;
 }
 
 .sidebar-subicon{
     font-size:14px;
-    margin-right:6px;
-}
-
-.brand-logo{
-    width:34px;
-    height:34px;
-    background:#004D1A;
-    color:#FFD04C;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:8px;
-    font-size:16px;
-}
-
-.main-content{
-    padding:24px;
-}
-
-.footer{
-    padding:15px;
-    text-align:center;
-    font-size:14px;
-    color:#6B7280;
-}
-
-.brand-logo{
-    width:32px;
-    height:32px;
-    background:#004D1A;
-    color:#FFD04C;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:8px;
-    font-size:13px;
-    font-weight:700;
-}
-
-.brand-text{
-    font-size:18px;
-    color:#111827;
-}
-
-.nav-icon{
-    width:36px;
-    height:36px;
-    border:none;
-    background:#F3F4F6;
-    border-radius:8px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    font-size:16px;
-}
-
-.nav-icon:hover{
-    background:#E5E7EB;
-}
-
-.nav-user{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    border:none;
-    background:transparent;
-    cursor:pointer;
-}
-
-.user-avatar{
-    width:34px;
-    height:34px;
-    background:#004D1A;
-    color:#FFD04C;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:13px;
-    font-weight:600;
-}
-
-.user-name{
-    font-size:14px;
-    font-weight:500;
-    color:#374151;
+    opacity:.7;
 }

@@ -1,66 +1,69 @@
-<form>
+<form method="POST" action="{{ route('users.store') }}">
+    @csrf
 
-    <div class="row g-3">
+    <div class="row g-4">
 
-        <div class="col-md-6">
+        <x-form.group name="name" label="Name" class="col-md-6">
 
-            <label class="form-label">Name</label>
-
-            <input
-                type="text"
-                class="form-control"
-                placeholder="Enter name"
+            <x-form.input
+                name="name"
+                placeholder="Enter full name"
             />
 
-        </div>
+        </x-form.group>
 
-        <div class="col-md-6">
 
-            <label class="form-label">Email</label>
+        <x-form.group name="email" label="Email" class="col-md-6">
 
-            <input
+            <x-form.input
                 type="email"
-                class="form-control"
+                name="email"
                 placeholder="Enter email"
             />
 
-        </div>
+        </x-form.group>
 
-        <div class="col-md-6">
 
-            <label class="form-label">Role</label>
+        <x-form.group name="role" label="Role" class="col-md-6">
+            <x-form.select
+                name="role"
+                ajax="{{ route('select2.roles') }}"
+                placeholder="Select role"
+                multiple
+            />
+        </x-form.group>
 
-            <select class="form-select">
 
-                <option>Admin</option>
-                <option>Staff</option>
-                <option>User</option>
+        <x-form.group name="password" label="Password" class="col-md-6">
 
-            </select>
-
-        </div>
-
-        <div class="col-md-6">
-
-            <label class="form-label">Password</label>
-
-            <input
-                type="password"
-                class="form-control"
+            <x-form.password
+                name="password"
                 placeholder="Enter password"
             />
 
-        </div>
+        </x-form.group>
+
+
+        <x-form.group name="password_confirmation" label="Confirm Password" class="col-md-6">
+
+            <x-form.password
+                name="password_confirmation"
+                placeholder="Confirm password"
+            />
+
+        </x-form.group>
 
     </div>
 
-    <div class="mt-4">
 
-        <button class="btn btn-primary">
+    <div class="form-actions mt-4 d-flex align-items-center gap-2">
+
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-check"></i>
             Save User
         </button>
 
-        <a href="/users" class="btn btn-light">
+        <a href="{{ route('users.index') }}" class="btn btn-light">
             Cancel
         </a>
 

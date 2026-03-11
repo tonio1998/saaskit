@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Parents;
+use App\Models\QrCodes;
+use App\Models\Students;
+use App\Models\Teachers;
 use App\Models\User;
+use App\Traits\TCommonFunctions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
-
+    use TCommonFunctions;
     public function index()
     {
 
@@ -19,32 +26,57 @@ class UserController extends Controller
 
     }
 
-    public function users_data(REQUEST $request)
+    public function users_search(Request $request)
+    {
+        $search = $request->search;
+        $users = User::query()
+            ->when($search,function($q) use ($search){
+                $q->where('name','like',"%{$search}%");
+            })
+            ->limit(10)
+            ->get();
+        return $users->map(function($user){
+            return [
+                'id'=>$user->id,
+                'text'=>$user->name
+            ];
+        });
+    }
+
+    public function users_data(Request $request)
     {
         $users = User::select(['id','name','email']);
         return DataTables::of($users)
-            ->addColumn('name', function($user){
-                return $user->name;
-            })
-            ->addColumn('email', function($user){
-                return $user->email;
+            ->addColumn('name', fn($user) => e($user->name))
+            ->addColumn('email', fn($user) => e($user->email))
+            ->addColumn('role', function($user){
+                $role = $user->role;
+                return $role;
             })
             ->addColumn('actions', function($user){
+                $edit = route('users.edit',$user->id);
+                $delete = route('users.destroy',$user->id);
+                $token = csrf_token();
                 return '
-                    <a href="" class="btn btn-sm btn-outline-primary">
+                    <div class="d-flex align-items-center gap-2">
+
+                    <a href="'.$edit.'" class="btn btn-icon btn-soft-primary btn-icon-sm">
                     <i class="bi bi-pencil"></i>
                     </a>
 
-                    <form method="POST" action="/users/'.$user->id.'" style="display:inline">
+                    <form method="POST" action="'.$delete.'" class="d-inline delete-form">
+                    <input type="hidden" name="_token" value="'.$token.'">
                     <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="'.csrf_token().'">
-                    <button class="btn btn-sm btn-outline-danger">
+
+                    <button type="submit" class="btn btn-icon btn-soft-danger btn-icon-sm">
                     <i class="bi bi-trash"></i>
                     </button>
+
                     </form>
-                    ';
+
+                    </div>';
             })
-            ->rawColumns(['role','actions'])
+            ->rawColumns(['actions'])
             ->make(true);
     }
 
@@ -109,10 +141,122 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()
-            ->route('users.index')
-            ->with('success','User deleted successfully');
+        return redirect()->route('users.index')->with('success','User deleted successfully');
 
+    }
+
+    private function generateQrCode()
+    {
+        $prefix = env('SCHOOL_ID');
+
+        $lastRow = QrCodes::where('prefix', 1)
+            ->orderBy('last_number', 'desc')
+            ->first();
+
+        $newNumber = ($lastRow->last_number ?? 0) + 1;
+
+        $qrCodeRow = new QrCodes();
+        $qrCodeRow->prefix = $prefix;
+        $qrCodeRow->last_number = $newNumber;
+        $qrCodeRow->created_by = 0;
+        $qrCodeRow->updated_by = 0;
+        $qrCodeRow->created_at = now();
+        $qrCodeRow->updated_at = now();
+        $qrCodeRow->status = 'active';
+        $qrCodeRow->archived = 0;
+        $qrCodeRow->save();
+
+        return $prefix . str_pad($newNumber, 12, '0', STR_PAD_LEFT);
+    }
+
+    public function generatePassword(Request $request)
+    {
+        $UserTypeID = $request->segment(2);
+        $UserID = $request->segment(3);
+        $user_type = $request->segment(4);
+
+        $newPassword = strtoupper(Str::random(6));
+
+        DB::beginTransaction();
+
+        try {
+
+            if($user_type === 'students'){
+                $UserT = Students::findOrFail($UserTypeID);
+            }elseif($user_type === 'teachers'){
+                $UserT = Teachers::findOrFail($UserTypeID);
+            }elseif($user_type === 'parents'){
+                $UserT = Parents::findOrFail($UserTypeID);
+            }else{
+                return response()->json(['message'=>'Invalid user type'],400);
+            }
+
+            $user = User::find($UserID);
+
+            if(!$user){
+
+                $base = strtolower(substr($UserT->FirstName,0,1).$UserT->LastName);
+                $username = $base;
+                $counter = 1;
+
+                while(User::where('email',$username.env('SCHOOL_EMAIL'))->exists()){
+                    $username = $base.$counter;
+                    $counter++;
+                }
+
+                $email = $username.env('SCHOOL_EMAIL');
+
+                $user = new User();
+                $user->conn_id = $UserTypeID;
+                $user->SchoolID = env('SCHOOL_ID');
+                $user->name = $UserT->FirstName.' '.$UserT->LastName;
+                $user->email = $email;
+                $user->password = Hash::make($newPassword);
+                $user->qr_code = $this->generateQrCode();
+
+                $this->setCommonFields($user);
+
+                $user->save();
+
+            }else{
+
+                $user->conn_id = $UserTypeID;
+                $user->name = $UserT->FirstName.' '.$UserT->LastName;
+                $user->password = Hash::make($newPassword);
+
+                if(empty($user->qr_code) || $user->qr_code == '0'){
+                    $user->qr_code = $this->generateQrCode();
+                }
+
+                $user->save();
+
+                $email = $user->email;
+            }
+
+            $user->syncRoles($user_type);
+
+            $UserT->UserID = $user->id;
+            $UserT->save();
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Password generated successfully.',
+                'password' => $newPassword,
+                'username' => $email
+            ]);
+
+        }catch(\Exception $e){
+
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ],500);
+
+        }
     }
 
 }
