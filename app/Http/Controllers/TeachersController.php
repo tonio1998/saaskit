@@ -93,7 +93,7 @@ class TeachersController extends Controller
 
     public function ajaxData(Request $request)
     {
-        $query = Teachers::with(['createdBy']);
+        $query = Teachers::with(['createdBy', 'teacherUser']);
 
         return datatables()
             ->eloquent($query)
@@ -117,14 +117,16 @@ class TeachersController extends Controller
                         </li>';
                 }
 
-                if(auth()->user()->can('view users')) {
-                    $menu .= '
-                        <li>
-                            <a href="" class="dropdown-item">
-                                <i class="bi bi-key me-2"></i> Generate New Password
-                            </a>
-                        </li>';
-                }
+                $menu .= '
+                <li>
+                <a href="javascript:void(0)"
+                   class="dropdown-item btn-password"
+                   data-url="'.route('users.password',['teachers',$teacher->id,$teacher->UserID ?? 0]).'"
+                   data-type="'.($teacher->studentUser ? 'regenerate' : 'generate').'">
+                   <i class="bi bi-key me-2"></i>
+                   '.($teacher->teacherUser ? 'Update Password' : 'Generate Password').'
+                </a>
+                </li>';
 
                 if($menu == '') return '';
 

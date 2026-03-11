@@ -42,4 +42,11 @@ class Teachers extends Model implements AuditableContract
     {
         return $this->hasMany(Students::class, 'GuardianID');
     }
+
+    public function teacherUser()
+    {
+        return $this->hasOne(User::class, 'conn_id', 'id')->whereHas('roles', function ($q) {
+            $q->where('name', 'teachers');
+        });
+    }
 }
