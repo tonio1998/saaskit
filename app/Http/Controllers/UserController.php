@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
@@ -43,38 +45,60 @@ class UserController extends Controller
         });
     }
 
+    public function editRoles(Request $request)
+    {
+        $user = User::findOrFail(decrypt($request->segment(2)));
+        $roles = Role::all();
+        return view('pages.users.roles',compact('user','roles'));
+    }
+
+    public function editPermissions(Request $request)
+    {
+        $user = User::findOrFail(decrypt($request->segment(2)));
+        $permissions = Permission::all();
+        return view('pages.users.permissions',compact('user','permissions'));
+    }
+
+    public function updateRoles(Request $request, User $user)
+    {
+        $roles = $request->roles ?? [];
+        $user->syncRoles($roles);
+
+        return redirect()->back()->with('success','Roles updated successfully.');
+    }
+
+    public function updatePermissions(Request $request, User $user)
+    {
+        $permissions = $request->permissions ?? [];
+        $user->syncPermissions($permissions);
+
+        return redirect()->back()->with('success','Permissions updated successfully.');
+    }
+
     public function users_data(Request $request)
     {
-        $users = User::select(['id','name','email']);
+        $users = User::with('roles')->select(['id','name','email']);
+
         return DataTables::of($users)
             ->addColumn('name', fn($user) => e($user->name))
             ->addColumn('email', fn($user) => e($user->email))
             ->addColumn('role', function($user){
-                $role = $user->role;
-                return $role;
+                return $user->roles->pluck('name')->implode(', ');
             })
             ->addColumn('actions', function($user){
-                $edit = route('users.edit',$user->id);
-                $delete = route('users.destroy',$user->id);
-                $token = csrf_token();
+                $permissions = route('users.permissions',encrypt($user->id));
+                $roles = route('users.roles',encrypt($user->id));
+
                 return '
-                    <div class="d-flex align-items-center gap-2">
-
-                    <a href="'.$edit.'" class="btn btn-icon btn-soft-primary btn-icon-sm">
-                    <i class="bi bi-pencil"></i>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="'.$permissions.'" class="btn btn-soft-primary btn-sm">
+                        <i class="bi bi-key"></i> Assign Permissions
                     </a>
-
-                    <form method="POST" action="'.$delete.'" class="d-inline delete-form">
-                    <input type="hidden" name="_token" value="'.$token.'">
-                    <input type="hidden" name="_method" value="DELETE">
-
-                    <button type="submit" class="btn btn-icon btn-soft-danger btn-icon-sm">
-                    <i class="bi bi-trash"></i>
-                    </button>
-
-                    </form>
-
-                    </div>';
+                    <a href="'.$roles.'" class="btn btn-soft-warning btn-sm">
+                        <i class="bi bi-person-badge"></i> Assign Roles
+                    </a>
+                </div>
+            ';
             })
             ->rawColumns(['actions'])
             ->make(true);

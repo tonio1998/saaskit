@@ -40,7 +40,11 @@ class LogsController extends Controller
         return datatables()
             ->eloquent($query)
             ->addColumn('actions', function ($log) {
-                return '<button class="btn btn-md btn-soft-primary">View</button>';
+                return '
+                    <a href="" class="btn btn-sm btn-soft-primary">
+                        <i class="bi bi-eye"></i> View
+                    </a>
+                ';
             })
             ->addColumn('name', function ($log) {
                 return optional($log->user)->name;

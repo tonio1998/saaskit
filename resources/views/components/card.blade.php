@@ -1,15 +1,5 @@
-<div class="card h-100">
-
+<div class="card border-0 shadow-sm h-100 {{ $class ?? '' }}">
     <div class="card-body">
-
-        @isset($title)
-            <div class="card-title">
-                {{ $title }}
-            </div>
-        @endisset
-
         {{ $slot }}
-
     </div>
-
 </div>

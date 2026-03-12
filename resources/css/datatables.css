@@ -3,7 +3,13 @@
     border-radius:var(--radius);
     overflow:hidden;
 }
+.table thead{
+    background:var(--table-header);
+}
 
+.table tbody tr:hover{
+    background:var(--table-hover);
+}
 .table thead th{
     font-size:12px;
     text-transform:uppercase;
