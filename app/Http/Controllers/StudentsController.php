@@ -132,47 +132,39 @@ class StudentsController extends Controller
         return datatables()
             ->eloquent($query)
             ->addColumn('actions', function ($student) {
-                $menu = '';
-                if(auth()->user()->can('view users')) {
-                    $menu .= '
-                    <li>
-                        <a href="'.route('students.edit',encrypt($student->id)).'" class="dropdown-item">
-                            <i class="bi bi-pencil me-2"></i> Edit
-                        </a>
-                    </li>';
-                }
 
-                if(auth()->user()->can('view users')) {
-                    $menu .= '
-                        <li>
-                            <a href="" class="dropdown-item">
-                                <i class="bi bi-person-badge me-2"></i> Generate ID
-                            </a>
-                        </li>';
-                }
+                $menu = [];
 
-                $menu .= '
+                $menu[] = '
                 <li>
-                <a href="javascript:void(0)"
-                   class="dropdown-item btn-password"
-                   data-url="'.route('users.password',['students',$student->id,$student->UserID ?? 0]).'"
-                   data-type="'.($student->studentUser ? 'regenerate' : 'generate').'">
-                   <i class="bi bi-key me-2"></i>
-                   '.($student->studentUser ? 'Update Password' : 'Generate Password').'
-                </a>
+                    <a href="'.route('students.edit',encrypt($student->id)).'" class="dropdown-item">
+                        <i class="bi bi-pencil me-2"></i> Edit
+                    </a>
                 </li>';
 
-                if($menu == '') return '';
+
+                $menu[] = '
+                <li>
+                    <a href="javascript:void(0)"
+                       class="dropdown-item btn-password"
+                       data-url="'.route('users.password',['students',$student->id,$student->UserID ?? 0]).'"
+                       data-type="'.($student->studentUser ? 'regenerate' : 'generate').'">
+                       <i class="bi bi-key me-2"></i>
+                       '.($student->studentUser ? 'Update Password' : 'Generate Password').'
+                    </a>
+                </li>';
+
+                if(empty($menu)) return '';
 
                 return '
-                    <div class="dropdown">
-                        <button class="btn btn-soft-primary btn-sm p-2 px-3 dropdown-toggle" data-bs-toggle="dropdown">
-                           Actions
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            '.$menu.'
-                        </ul>
-                    </div>';
+                <div class="dropdown">
+                    <button class="btn btn-soft-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        '.implode('', $menu).'
+                    </ul>
+                </div>';
 
             })
             ->addColumn('name', function ($student) {

@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\ParentsController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\StudentsController;
@@ -33,6 +34,10 @@ Route::middleware('auth')->group(function(){
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
         Route::post('/generate-password/{type}/{typeId}/{userId}',[UserController::class,'generatePassword'])
             ->name('password');
+        Route::get('/{user}/roles', [UserController::class,'editRoles'])->name('roles');
+        Route::get('/{user}/permissions', [UserController::class,'editPermissions'])->name('permissions');
+        Route::put('/{user}/roles',[UserController::class,'updateRoles'])->name('roles.update');
+        Route::put('/{user}/permissions',[UserController::class,'updatePermissions'])->name('permissions.update');
     });
 
     Route::prefix('logs')->name('logs.')->group(function(){
@@ -69,6 +74,24 @@ Route::middleware('auth')->group(function(){
 
     Route::prefix('scanner')->name('scanner.')->group(function(){
         Route::get('/index', [ScannerController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('permissions')->name('permissions.')->group(function(){
+        Route::get('/', [PermissionController::class, 'index'])->name('index');
+        Route::get('/create', [PermissionController::class, 'create'])->name('create');
+        Route::post('/create', [PermissionController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [PermissionController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [PermissionController::class, 'update'])->name('update');
+        Route::get('/data', [PermissionController::class, 'ajaxData'])->name('data');
+    });
+
+    Route::prefix('roles')->name('roles.')->group(function(){
+        Route::get('/', [RoleController::class, 'index'])->name('index');
+        Route::get('/create', [RoleController::class, 'create'])->name('create');
+        Route::post('/create', [RoleController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [RoleController::class, 'update'])->name('update');
+        Route::get('/data', [RoleController::class, 'ajaxData'])->name('data');
     });
 
     Route::get('/reports', fn() => view('pages.reports.index'));

@@ -22,6 +22,12 @@
     margin-top:4px;
 }
 
+.dashboard-stats{
+    background: var(--color-primary-brand) !important;
+}
+.bg-gradient {
+    background: linear-gradient(135deg, rgba(0,0,0,0.1), rgba(255,255,255,0.05));
+}
 .avatar{
     width:38px;
     height:38px;
@@ -267,13 +273,29 @@
 /* PRIMARY */
 
 .btn-primary{
-    background:var(--color-primary);
-    color:#fff;
+    background:var(--btn-accent-bg);
+    color:var(--btn-accent-text);
+    border-radius:var(--radius);
+    transition:var(--transition);
 }
 
 .btn-primary:hover{
-    background:#003915;
+    background:var(--color-accent-600);
+    color:var(--btn-accent-text);
+    transform:translateY(-1px);
+    box-shadow:var(--shadow-sm);
 }
+
+.btn-primary:active{
+    transform:translateY(0);
+    box-shadow:var(--shadow-xs);
+}
+
+.btn-primary:focus{
+    outline:none;
+    box-shadow:0 0 0 3px var(--color-accent-soft);
+}
+
 
 
 /* ACCENT */

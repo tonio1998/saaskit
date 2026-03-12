@@ -1,125 +1,135 @@
 <div class="sidebar">
     <ul class="sidebar-menu">
+
         <li class="sidebar-item">
-            <a class="sidebar-link active" href="{{ route('scanner.index') }}">
-                <i class="bi bi-speedometer2 sidebar-icon"></i>
+            <a
+                href="{{ route('scanner.index') }}"
+                class="sidebar-link {{ request()->routeIs('scanner.index') ? 'active' : '' }}"
+            >
+                <i class="bi bi-qr-code-scan sidebar-icon"></i>
                 <span>Scanner</span>
             </a>
         </li>
+
         <li class="sidebar-item">
-            <a class="sidebar-link active" href="/dashboard">
+            <a
+                href="{{ route('dashboard') }}"
+                class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+            >
                 <i class="bi bi-speedometer2 sidebar-icon"></i>
                 <span>Dashboard</span>
             </a>
         </li>
+
         <li class="sidebar-item">
-            <a class="sidebar-link"
-               data-bs-toggle="collapse"
-               href="#systemMenu"
-               role="button"
-            >
-                <i class="bi bi-layers sidebar-icon"></i>
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#systemMenu">
+                <i class="bi bi-activity sidebar-icon"></i>
                 <span>Logs Monitoring</span>
                 <i class="bi bi-chevron-down dropdown-icon"></i>
             </a>
             <div class="collapse sidebar-dropdown" id="systemMenu">
                 <a href="{{ route('logs.index') }}" class="sidebar-sublink">
-                    <i class="bi bi-book sidebar-subicon"></i>
+                    <i class="bi bi-clock-history sidebar-subicon"></i>
                     All Logs
                 </a>
             </div>
         </li>
+
         <li class="sidebar-item">
-            <a class="sidebar-link"
-               data-bs-toggle="collapse"
-               href="#studentMenu"
-               role="button"
-            >
-                <i class="bi bi-layers sidebar-icon"></i>
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#studentMenu">
+                <i class="bi bi-mortarboard sidebar-icon"></i>
                 <span>Student Management</span>
                 <i class="bi bi-chevron-down dropdown-icon"></i>
             </a>
             <div class="collapse sidebar-dropdown" id="studentMenu">
                 <a href="{{ route('students.create') }}" class="sidebar-sublink">
-                    <i class="bi bi-book sidebar-subicon"></i>
-                   Add Student
+                    <i class="bi bi-person-plus sidebar-subicon"></i>
+                    Add Student
                 </a>
                 <a href="{{ route('students.index') }}" class="sidebar-sublink">
-                    <i class="bi bi-book sidebar-subicon"></i>
+                    <i class="bi bi-people sidebar-subicon"></i>
                     Masterlist
                 </a>
             </div>
         </li>
+
         <li class="sidebar-item">
-            <a class="sidebar-link"
-               data-bs-toggle="collapse"
-               href="#guardianMenu"
-               role="button"
-            >
-                <i class="bi bi-layers sidebar-icon"></i>
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#guardianMenu">
+                <i class="bi bi-people-fill sidebar-icon"></i>
                 <span>Parent Management</span>
                 <i class="bi bi-chevron-down dropdown-icon"></i>
             </a>
             <div class="collapse sidebar-dropdown" id="guardianMenu">
                 <a href="{{ route('parents.create') }}" class="sidebar-sublink">
-                    <i class="bi bi-book sidebar-subicon"></i>
+                    <i class="bi bi-person-plus sidebar-subicon"></i>
                     Add Parent
                 </a>
                 <a href="{{ route('parents.index') }}" class="sidebar-sublink">
-                    <i class="bi bi-book sidebar-subicon"></i>
+                    <i class="bi bi-person-lines-fill sidebar-subicon"></i>
                     Masterlist
                 </a>
             </div>
         </li>
+
         <li class="sidebar-item">
-            <a class="sidebar-link"
-               data-bs-toggle="collapse"
-               href="#teacherMenu"
-               role="button"
-            >
-                <i class="bi bi-layers sidebar-icon"></i>
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#teacherMenu">
+                <i class="bi bi-person-badge sidebar-icon"></i>
                 <span>Teacher Management</span>
                 <i class="bi bi-chevron-down dropdown-icon"></i>
             </a>
             <div class="collapse sidebar-dropdown" id="teacherMenu">
                 <a href="{{ route('teachers.create') }}" class="sidebar-sublink">
-                    <i class="bi bi-book sidebar-subicon"></i>
+                    <i class="bi bi-person-plus sidebar-subicon"></i>
                     Add Teacher
                 </a>
                 <a href="{{ route('teachers.index') }}" class="sidebar-sublink">
-                    <i class="bi bi-book sidebar-subicon"></i>
+                    <i class="bi bi-person-vcard sidebar-subicon"></i>
                     Masterlist
                 </a>
             </div>
         </li>
+
         <li class="sidebar-item">
-            <a class="sidebar-link"
-                data-bs-toggle="collapse"
-                href="#usersMenu"
-                role="button"
-            >
-                <i class="bi bi-layers sidebar-icon"></i>
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#usersMenu">
+                <i class="bi bi-shield-lock sidebar-icon"></i>
                 <span>User Management</span>
                 <i class="bi bi-chevron-down dropdown-icon"></i>
             </a>
             <div class="collapse sidebar-dropdown" id="usersMenu">
+                <a href="{{ route('permissions.index') }}" class="sidebar-sublink">
+                    <i class="bi bi-key sidebar-subicon"></i>
+                    Permissions
+                </a>
+                <a href="{{ route('roles.index') }}" class="sidebar-sublink">
+                    <i class="bi bi-person-gear sidebar-subicon"></i>
+                    Roles
+                </a>
                 <a href="{{ route('users.index') }}" class="sidebar-sublink">
-                    <i class="bi bi-cash-coin sidebar-subicon"></i>
+                    <i class="bi bi-people sidebar-subicon"></i>
                     Masterlist
                 </a>
             </div>
         </li>
+
         <li class="sidebar-item">
-            <a class="sidebar-link" href="#">
-                <i class="bi bi-bar-chart-line sidebar-icon"></i>
-                <span>Reports</span>
+            <a class="sidebar-link d-flex align-items-center justify-content-between" href="#">
+                <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-bar-chart sidebar-icon"></i>
+                    <span>Reports</span>
+                </span>
+                <span class="badge bg-warning text-dark">Soon</span>
             </a>
         </li>
+
         <li class="sidebar-item">
-            <a class="sidebar-link" href="#">
-                <i class="bi bi-gear sidebar-icon"></i>
-                <span>Settings</span>
+            <a class="sidebar-link d-flex align-items-center justify-content-between" href="#">
+                <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-gear sidebar-icon"></i>
+                    <span>Settings</span>
+                </span>
+                <span class="badge bg-warning text-dark">Soon</span>
             </a>
         </li>
+
     </ul>
 </div>

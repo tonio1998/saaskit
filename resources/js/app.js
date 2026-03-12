@@ -1,6 +1,5 @@
 import './bootstrap'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-
 import $ from 'jquery'
 window.$ = window.jQuery = $
 
@@ -18,7 +17,8 @@ window.JSZip = JSZip
 
 import Swal from 'sweetalert2'
 window.Swal = Swal
-
+import './roles-drag.js'
+import './permissions-drag.js'
 document.addEventListener("DOMContentLoaded",function(){
     document.querySelectorAll(".password-toggle").forEach(toggle=>{
         toggle.addEventListener("click",function(){
